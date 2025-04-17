@@ -1,0 +1,8 @@
+jiekie\util\NicknameManager.class
+jiekie\event\PlayerEvent.class
+jiekie\completer\NicknameTabCompleter.class
+jiekie\util\ChatUtil.class
+jiekie\NicknamePlugin.class
+jiekie\util\PlayerNameData.class
+jiekie\util\SoundUtil.class
+jiekie\command\NicknameCommand.class
