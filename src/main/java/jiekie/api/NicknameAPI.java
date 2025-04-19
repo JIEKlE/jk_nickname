@@ -11,6 +11,7 @@ public class NicknameAPI {
 
     public NicknameAPI(NicknameManager nicknameManager) {
         this.nicknameManager = nicknameManager;
+        instance = this;
     }
 
     public static NicknameAPI getInstance() {
