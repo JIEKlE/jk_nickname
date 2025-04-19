@@ -44,8 +44,17 @@ public class NicknameManager {
         }
     }
 
+    private boolean isNicknameTaken(Player player, String nickname) {
+        UUID uuid = player.getUniqueId();
+        if(!nicknameMap.containsKey(nickname))
+            return false;
+
+        UUID nicknameUUID = nicknameMap.get(nickname);
+        return !uuid.equals(nicknameUUID);
+    }
+
     public void applyNickname(Player player, String nickname) throws ApplyNicknameException {
-        if(nicknameMap.containsKey(nickname))
+        if(isNicknameTaken(player, nickname))
             throw new ApplyNicknameException(ChatUtil.NICKNAME_DUPLICATED);
 
         if(playerNameDataMap.containsKey(player.getUniqueId()))

@@ -5,6 +5,7 @@ jiekie\util\ChatUtil.class
 jiekie\exception\ApplyNicknameException.class
 jiekie\NicknamePlugin.class
 jiekie\util\PlayerNameData.class
+jiekie\api\NicknameAPI.class
 jiekie\exception\ResetNicknameException.class
 jiekie\util\SoundUtil.class
 jiekie\command\NicknameCommand.class

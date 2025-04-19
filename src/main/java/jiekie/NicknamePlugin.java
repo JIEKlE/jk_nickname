@@ -1,5 +1,6 @@
 package jiekie;
 
+import jiekie.api.NicknameAPI;
 import jiekie.command.NicknameCommand;
 import jiekie.completer.NicknameTabCompleter;
 import jiekie.event.PlayerEvent;
@@ -28,6 +29,9 @@ public final class NicknamePlugin extends JavaPlugin {
 
         // 자동완성 등록
         getCommand("닉네임").setTabCompleter(new NicknameTabCompleter(this));
+
+        // API 등록
+        new NicknameAPI(nicknameManager);
 
         getLogger().info("닉네임 설정 플러그인 by Jiekie");
         getLogger().info("Copyright © 2025 Jiekie. All rights reserved.");
