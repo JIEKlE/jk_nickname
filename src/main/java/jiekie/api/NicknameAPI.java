@@ -9,9 +9,17 @@ public class NicknameAPI {
     private static NicknameAPI instance;
     private final NicknameManager nicknameManager;
 
-    public NicknameAPI(NicknameManager nicknameManager) {
+    private NicknameAPI(NicknameManager nicknameManager) {
         this.nicknameManager = nicknameManager;
-        instance = this;
+    }
+
+    public static void initialize(NicknameManager nicknameManager) {
+        if(instance != null) return;
+        instance = new NicknameAPI(nicknameManager);
+    }
+
+    public static boolean isInitialized() {
+        return instance != null;
     }
 
     public static NicknameAPI getInstance() {

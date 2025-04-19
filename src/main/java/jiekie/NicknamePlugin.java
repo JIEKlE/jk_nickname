@@ -31,7 +31,7 @@ public final class NicknamePlugin extends JavaPlugin {
         getCommand("닉네임").setTabCompleter(new NicknameTabCompleter(this));
 
         // API 등록
-        new NicknameAPI(nicknameManager);
+        NicknameAPI.initialize(nicknameManager);
 
         getLogger().info("닉네임 설정 플러그인 by Jiekie");
         getLogger().info("Copyright © 2025 Jiekie. All rights reserved.");
