@@ -39,6 +39,10 @@ public class NicknameManager {
             PlayerNameData playerNameData = new PlayerNameData(uuid, name, nickname);
             playerNameData.setOnline(false);
 
+            Player player = Bukkit.getPlayer(uuid);
+            if(player != null && player.isOnline())
+                playerNameData.setOnline(true);
+
             playerNameDataMap.put(uuid, playerNameData);
             nicknameMap.put(nickname, uuid);
         }
