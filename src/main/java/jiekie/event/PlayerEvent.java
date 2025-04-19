@@ -1,13 +1,12 @@
 package jiekie.event;
 
 import jiekie.NicknamePlugin;
+import jiekie.exception.ApplyNicknameException;
 import jiekie.util.ChatUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import jiekie.util.PlayerNameData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -24,22 +23,36 @@ public class PlayerEvent implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
-        String nickname = plugin.getNicknameManager().getPlayerNickname(uuid);
+        PlayerNameData playerNameData = plugin.getNicknameManager().getPlayerNameDataByUuid(uuid);
 
-        if(nickname == null)
-            nickname = player.getName();
-        else
-            plugin.getNicknameManager().applyNickname(player, nickname);
+        if(playerNameData == null) {
+            e.setJoinMessage(ChatUtil.getAddPrefix() + player.getName());
+            return;
+        }
 
+        String nickname = playerNameData.getNickname();
         e.setJoinMessage(ChatUtil.getAddPrefix() + nickname);
+        playerNameData.setOnline(true);
+
+        try {
+            plugin.getNicknameManager().applyNickname(player, nickname);
+        } catch (ApplyNicknameException ex) {
+            plugin.getLogger().info(ex.getMessage());
+        }
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerQuitEvent e) {
+    public void onPlayerQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
-        String nickname = plugin.getNicknameManager().existsPlayerNameData(uuid) ? plugin.getNicknameManager().getPlayerNickname(uuid) : player.getName();
+        PlayerNameData playerNameData = plugin.getNicknameManager().getPlayerNameDataByUuid(uuid);
 
-        e.setQuitMessage(ChatUtil.getSubtractPrefix() + nickname);
+        if(playerNameData == null) {
+            e.setQuitMessage(ChatUtil.getSubtractPrefix() + player.getName());
+            return;
+        }
+
+        e.setQuitMessage(ChatUtil.getSubtractPrefix() + playerNameData.getNickname());
+        playerNameData.setOnline(false);
     }
 }

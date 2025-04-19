@@ -12,7 +12,6 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class NicknameTabCompleter implements TabCompleter {
     private final NicknamePlugin plugin;
@@ -35,10 +34,10 @@ public class NicknameTabCompleter implements TabCompleter {
         }
 
         if(args.length == 2 && args[0].equals("확인"))
-            return plugin.getNicknameManager().getPlayerNicknameList();
+            return plugin.getNicknameManager().getPlayerNameAndNicknameList();
 
         if(args.length == 2 && args[0].equals("변경"))
-            return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+            return plugin.getNicknameManager().getPlayerNameList();
 
         return Collections.emptyList();
     }

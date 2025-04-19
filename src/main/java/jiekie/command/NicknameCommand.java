@@ -1,7 +1,10 @@
 package jiekie.command;
 
 import jiekie.NicknamePlugin;
+import jiekie.exception.ApplyNicknameException;
+import jiekie.exception.ResetNicknameException;
 import jiekie.util.ChatUtil;
+import jiekie.util.PlayerNameData;
 import jiekie.util.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,7 +14,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.UUID;
 
 public class NicknameCommand implements CommandExecutor {
@@ -63,7 +65,6 @@ public class NicknameCommand implements CommandExecutor {
         return true;
     }
 
-    /* 설정 */
     public void setNickname(Player player, String[] args) {
         if(args.length < 2) {
             player.sendMessage(ChatUtil.wrongCommand() + " (/닉네임 설정 이름)");
@@ -71,80 +72,95 @@ public class NicknameCommand implements CommandExecutor {
         }
 
         String nickname = getContents(args, 1);
-        plugin.getNicknameManager().applyNickname(player, nickname);
+        try {
+            plugin.getNicknameManager().applyNickname(player, nickname);
+            ChatUtil.setNickname(player);
+            SoundUtil.playNoteBlockBell(player);
 
-        ChatUtil.setNickname(player);
-        SoundUtil.playNoteBlockBell(player);
+        } catch (ApplyNicknameException e) {
+            ChatUtil.showErrorMessage(player, e.getMessage());
+        }
     }
 
-    /* 해제 */
     public void resetNickname(Player player) {
-        UUID uuid = player.getUniqueId();
-        if(!plugin.getNicknameManager().existsPlayerNameData(uuid)) {
-            ChatUtil.nicknameDoesNotExist(player);
+        try {
+            plugin.getNicknameManager().resetNickname(player);
+            ChatUtil.resetNickname(player);
+            SoundUtil.playNoteBlockBell(player);
+
+        } catch (ResetNicknameException e) {
+            ChatUtil.showErrorMessage(player, e.getMessage());
+        }
+    }
+
+    public void checkNickname(Player player, String[] args) {
+        PlayerNameData playerNameData = null;
+
+        // 본인 닉네임 확인
+        if(args.length == 1) {
+            playerNameData = plugin.getNicknameManager().getPlayerNameDataByUuid(player.getUniqueId());
+
+        // 플레이어 닉네임 확인
+        } else {
+            String searchNickname = getContents(args, 1);
+            Player searchedPlayer = plugin.getNicknameManager().getPlayerByNameOrNickname(searchNickname);
+            if(searchedPlayer == null) {
+                ChatUtil.showErrorMessage(player, ChatUtil.PLAYER_NOT_FOUND);
+                return;
+            }
+            playerNameData = plugin.getNicknameManager().getPlayerNameDataByUuid(searchedPlayer.getUniqueId());
+        }
+
+        if(playerNameData == null) {
+            ChatUtil.showErrorMessage(player, ChatUtil.NICKNAME_NOT_SET);
             return;
         }
 
-        plugin.getNicknameManager().resetNickname(player);
-
-        ChatUtil.resetNickname(player);
+        ChatUtil.showNameNandNickname(player, playerNameData.getName(), playerNameData.getNickname());
         SoundUtil.playNoteBlockBell(player);
     }
 
-    /* 변경 */
     public void changePlayerNickname(Player player, String[] args) {
         if(!player.isOp()) {
             ChatUtil.notOp(player);
             return;
         }
 
-        if(args.length < 3) {
-            player.sendMessage(ChatUtil.wrongCommand() + " (/닉네임 변경 ID 닉네임)");
+        if(args.length < 2) {
+            player.sendMessage(ChatUtil.wrongCommand() + " (/닉네임 변경 플레이어ID 닉네임)");
             return;
         }
 
-        String name = args[1];
-        for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if(onlinePlayer.getName().equals(name)) {
-                String nickname = getContents(args, 2);
-                plugin.getNicknameManager().applyNickname(onlinePlayer, nickname);
+        // 플레이어 닉네임 해제
+        Player searchedPlayer = Bukkit.getPlayerExact(args[1]);
+        if(searchedPlayer == null) {
+            ChatUtil.showErrorMessage(player, ChatUtil.PLAYER_NOT_FOUND);
+            return;
+        }
 
-                ChatUtil.changePlayerNickname(player, name, nickname);
+        if(args.length == 2) {
+            try {
+                plugin.getNicknameManager().resetNickname(searchedPlayer);
+                ChatUtil.resetNickname(player);
                 SoundUtil.playNoteBlockBell(player);
 
-                return;
+            } catch (ResetNicknameException e) {
+                ChatUtil.showErrorMessage(player, e.getMessage());
             }
-        }
-
-        ChatUtil.canNotFindPlayer(player, name);
-        SoundUtil.playNoteBlockBell(player);
-    }
-
-    /* 확인 */
-    public void checkNickname(Player player, String[] args) {
-        // 본인 닉네임 확인
-        if(args.length == 1) {
-            UUID uuid = player.getUniqueId();
-            String nickname = plugin.getNicknameManager().getPlayerNickname(uuid);
-
-            if(nickname == null)
-                ChatUtil.nicknameDoesNotExist(player);
-            else
-                ChatUtil.showOwnNickname(player, nickname);
-
-            SoundUtil.playNoteBlockBell(player);
             return;
         }
 
-        // 플레이어 닉네임 확인
-        String searchNickname = getContents(args, 1);
-        List<String> names = plugin.getNicknameManager().findPlayerNameByNickname(searchNickname);
+        String nickname = getContents(args, 2);
+        try {
+            plugin.getNicknameManager().applyNickname(searchedPlayer, nickname);
+            ChatUtil.setNickname(player);
+            SoundUtil.playNoteBlockBell(player);
 
-        ChatUtil.showPlayerName(player, names, searchNickname);
-        SoundUtil.playNoteBlockBell(player);
+        } catch (ApplyNicknameException e) {
+            ChatUtil.showErrorMessage(player, e.getMessage());
+        }
     }
 
-    /*  내용 조합 */
     private String getContents(String[] args, int startIndex) {
         StringBuffer sb = new StringBuffer();
         for(int i = startIndex ; i < args.length ; i++) {
