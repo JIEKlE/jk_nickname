@@ -1,9 +1,11 @@
 package jiekie.api;
 
 import jiekie.util.NicknameManager;
+import jiekie.util.PlayerNameData;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.UUID;
 
 public class NicknameAPI {
     private static NicknameAPI instance;
@@ -40,5 +42,9 @@ public class NicknameAPI {
 
     public Player getPlayerByNameOrNickname(String name) {
         return nicknameManager.getPlayerByNameOrNickname(name);
+    }
+
+    public PlayerNameData getPlayerNameData(UUID uuid) {
+        return nicknameManager.getPlayerNameDataByUuid(uuid);
     }
 }
