@@ -14,9 +14,8 @@ public final class NicknamePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // config
-        FileConfiguration config = getConfig();
-        config.options().copyDefaults(true);
-        saveConfig();
+        saveDefaultConfig();
+        reloadConfig();
 
         nicknameManager = new NicknameManager(this);
         nicknameManager.loadPlayerNameData();
