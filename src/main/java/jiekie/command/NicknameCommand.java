@@ -4,7 +4,7 @@ import jiekie.NicknamePlugin;
 import jiekie.exception.ApplyNicknameException;
 import jiekie.exception.ResetNicknameException;
 import jiekie.util.ChatUtil;
-import jiekie.util.PlayerNameData;
+import jiekie.model.PlayerNameData;
 import jiekie.util.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,8 +13,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 public class NicknameCommand implements CommandExecutor {
     private final NicknamePlugin plugin;

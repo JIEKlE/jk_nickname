@@ -1,8 +1,10 @@
-package jiekie.util;
+package jiekie.manager;
 
 import jiekie.NicknamePlugin;
 import jiekie.exception.ApplyNicknameException;
 import jiekie.exception.ResetNicknameException;
+import jiekie.model.PlayerNameData;
+import jiekie.util.ChatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;

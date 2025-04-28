@@ -4,8 +4,7 @@ import jiekie.api.NicknameAPI;
 import jiekie.command.NicknameCommand;
 import jiekie.completer.NicknameTabCompleter;
 import jiekie.event.PlayerEvent;
-import jiekie.util.NicknameManager;
-import org.bukkit.configuration.file.FileConfiguration;
+import jiekie.manager.NicknameManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class NicknamePlugin extends JavaPlugin {

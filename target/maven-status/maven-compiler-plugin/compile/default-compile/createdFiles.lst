@@ -1,11 +1,11 @@
 jiekie\util\ChatUtil.class
 jiekie\NicknamePlugin.class
 jiekie\api\NicknameAPI.class
+jiekie\manager\NicknameManager.class
 jiekie\exception\ResetNicknameException.class
+jiekie\model\PlayerNameData.class
 jiekie\util\SoundUtil.class
 jiekie\command\NicknameCommand.class
-jiekie\util\NicknameManager.class
 jiekie\event\PlayerEvent.class
 jiekie\completer\NicknameTabCompleter.class
 jiekie\exception\ApplyNicknameException.class
-jiekie\util\PlayerNameData.class

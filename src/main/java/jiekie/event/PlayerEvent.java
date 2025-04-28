@@ -3,7 +3,7 @@ package jiekie.event;
 import jiekie.NicknamePlugin;
 import jiekie.exception.ApplyNicknameException;
 import jiekie.util.ChatUtil;
-import jiekie.util.PlayerNameData;
+import jiekie.model.PlayerNameData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
