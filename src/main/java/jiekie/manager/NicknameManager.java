@@ -68,10 +68,9 @@ public class NicknameManager {
         else
             createNickname(player, nickname);
 
+        addPlayerToTeam(player, nickname);
         player.setDisplayName(nickname);
         player.setPlayerListName(nickname);
-
-        addPlayerToTeam(player, nickname);
     }
 
     public void resetNickname(Player player) throws ResetNicknameException {
@@ -137,8 +136,8 @@ public class NicknameManager {
         team.getEntries().forEach(team::removeEntry);
         team.addEntry(player.getName());
 
-        team.setPrefix(ChatColor.RESET.toString());
-        team.setSuffix(ChatColor.RESET.toString());
+        team.setPrefix(nickname + " [");
+        team.setSuffix("]");
         team.setDisplayName(nickname);
 
         player.setScoreboard(scoreboard);
