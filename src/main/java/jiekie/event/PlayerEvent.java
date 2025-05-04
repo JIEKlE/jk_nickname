@@ -26,12 +26,12 @@ public class PlayerEvent implements Listener {
         PlayerNameData playerNameData = plugin.getNicknameManager().getPlayerNameDataByUuid(uuid);
 
         if(playerNameData == null) {
-            e.setJoinMessage(ChatUtil.getAddPrefix() + player.getName());
+            e.setJoinMessage(ChatUtil.getRightArrowPrefix() + player.getName());
             return;
         }
 
         String nickname = playerNameData.getNickname();
-        e.setJoinMessage(ChatUtil.getAddPrefix() + nickname);
+        e.setJoinMessage(ChatUtil.getRightArrowPrefix() + nickname);
         playerNameData.setOnline(true);
 
         try {
@@ -48,11 +48,11 @@ public class PlayerEvent implements Listener {
         PlayerNameData playerNameData = plugin.getNicknameManager().getPlayerNameDataByUuid(uuid);
 
         if(playerNameData == null) {
-            e.setQuitMessage(ChatUtil.getSubtractPrefix() + player.getName());
+            e.setQuitMessage(ChatUtil.getLeftArrowPrefix() + player.getName());
             return;
         }
 
-        e.setQuitMessage(ChatUtil.getSubtractPrefix() + playerNameData.getNickname());
+        e.setQuitMessage(ChatUtil.getLeftArrowPrefix() + playerNameData.getNickname());
         playerNameData.setOnline(false);
     }
 }

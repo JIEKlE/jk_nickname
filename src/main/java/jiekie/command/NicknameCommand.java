@@ -72,27 +72,27 @@ public class NicknameCommand implements CommandExecutor {
         String nickname = getContents(args, 1);
         try {
             plugin.getNicknameManager().applyNickname(player, nickname);
-            ChatUtil.setNickname(player);
+            ChatUtil.showMessage(player, ChatUtil.SET_NICKNAME);
             SoundUtil.playNoteBlockBell(player);
 
         } catch (ApplyNicknameException e) {
-            ChatUtil.showErrorMessage(player, e.getMessage());
+            ChatUtil.showMessage(player, e.getMessage());
         }
     }
 
     public void resetNickname(Player player) {
         try {
             plugin.getNicknameManager().resetNickname(player);
-            ChatUtil.resetNickname(player);
+            ChatUtil.showMessage(player, ChatUtil.RESET_NICKNAME);
             SoundUtil.playNoteBlockBell(player);
 
         } catch (ResetNicknameException e) {
-            ChatUtil.showErrorMessage(player, e.getMessage());
+            ChatUtil.showMessage(player, e.getMessage());
         }
     }
 
     public void checkNickname(Player player, String[] args) {
-        PlayerNameData playerNameData = null;
+        PlayerNameData playerNameData;
 
         // 본인 닉네임 확인
         if(args.length == 1) {
@@ -103,14 +103,14 @@ public class NicknameCommand implements CommandExecutor {
             String searchNickname = getContents(args, 1);
             Player searchedPlayer = plugin.getNicknameManager().getPlayerByNameOrNickname(searchNickname);
             if(searchedPlayer == null) {
-                ChatUtil.showErrorMessage(player, ChatUtil.PLAYER_NOT_FOUND);
+                ChatUtil.showMessage(player, ChatUtil.PLAYER_NOT_FOUND);
                 return;
             }
             playerNameData = plugin.getNicknameManager().getPlayerNameDataByUuid(searchedPlayer.getUniqueId());
         }
 
         if(playerNameData == null) {
-            ChatUtil.showErrorMessage(player, ChatUtil.NICKNAME_NOT_SET);
+            ChatUtil.showMessage(player, ChatUtil.NICKNAME_NOT_SET);
             return;
         }
 
@@ -132,18 +132,18 @@ public class NicknameCommand implements CommandExecutor {
         // 플레이어 닉네임 해제
         Player searchedPlayer = Bukkit.getPlayerExact(args[1]);
         if(searchedPlayer == null) {
-            ChatUtil.showErrorMessage(player, ChatUtil.PLAYER_NOT_FOUND);
+            ChatUtil.showMessage(player, ChatUtil.PLAYER_NOT_FOUND);
             return;
         }
 
         if(args.length == 2) {
             try {
                 plugin.getNicknameManager().resetNickname(searchedPlayer);
-                ChatUtil.resetNickname(player);
+                ChatUtil.showMessage(player, ChatUtil.RESET_NICKNAME);
                 SoundUtil.playNoteBlockBell(player);
 
             } catch (ResetNicknameException e) {
-                ChatUtil.showErrorMessage(player, e.getMessage());
+                ChatUtil.showMessage(player, e.getMessage());
             }
             return;
         }
@@ -151,16 +151,16 @@ public class NicknameCommand implements CommandExecutor {
         String nickname = getContents(args, 2);
         try {
             plugin.getNicknameManager().applyNickname(searchedPlayer, nickname);
-            ChatUtil.setNickname(player);
+            ChatUtil.showMessage(player, ChatUtil.SET_NICKNAME);
             SoundUtil.playNoteBlockBell(player);
 
         } catch (ApplyNicknameException e) {
-            ChatUtil.showErrorMessage(player, e.getMessage());
+            ChatUtil.showMessage(player, e.getMessage());
         }
     }
 
     private String getContents(String[] args, int startIndex) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for(int i = startIndex ; i < args.length ; i++) {
             if(i != startIndex)
                 sb.append(" ");

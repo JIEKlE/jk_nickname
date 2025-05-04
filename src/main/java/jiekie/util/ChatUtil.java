@@ -4,27 +4,42 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-
 public class ChatUtil {
-    /* 에러 메시지 */
-    public static final String NICKNAME_NOT_SET = "설정된 닉네임이 없습니다.";
-    public static final String PLAYER_NOT_FOUND = "플레이어를 찾을 수 없습니다.";
-    public static final String NICKNAME_DUPLICATED = "이미 사용 중인 닉네임입니다.";
+    /* error */
+    public static final String NICKNAME_NOT_SET = getXPrefix() + "설정된 닉네임이 없습니다.";
+    public static final String PLAYER_NOT_FOUND = getXPrefix() + "플레이어를 찾을 수 없습니다.";
+    public static final String NICKNAME_DUPLICATED = getXPrefix() + "이미 사용 중인 닉네임입니다.";
+
+    /* feedback */
+    public static final String SET_NICKNAME = getCheckPrefix() + "닉네임이 설정되었습니다.";
+    public static final String RESET_NICKNAME = getCheckPrefix() + "닉네임이 해제되었습니다.";
+
+    /* prefix */
+    public static String getCheckPrefix() {
+        return "\uA001 ";
+    }
+
+    public static String getXPrefix() {
+        return "\uA002 ";
+    }
 
     public static String getWarnPrefix() {
-        return "[ " + ChatColor.YELLOW + "❗" + ChatColor.WHITE + " ] ";
+        return "\uA003 ";
     }
 
-    public static String getAddPrefix() {
-        return "[ " + ChatColor.GREEN + "➕" + ChatColor.WHITE + " ] ";
+    public static String getLeftArrowPrefix() {
+        return "\uA005 ";
     }
 
-    public static String getSubtractPrefix() {
-        return "[ " + ChatColor.RED + "➖" + ChatColor.WHITE + " ] ";
+    public static String getRightArrowPrefix() {
+        return "\uA006 ";
     }
 
-    /* 유효성 검사 */
+    public static void showMessage(Player player, String message) {
+        player.sendMessage(message);
+    }
+
+    /* validate */
     public static void notPlayer(CommandSender sender) {
         sender.sendMessage(getWarnPrefix() + "플레이어가 아닙니다.");
     }
@@ -37,29 +52,18 @@ public class ChatUtil {
         return getWarnPrefix() + "명령어 사용법이 잘못되었습니다.";
     }
 
-    /* 피드백 */
-    public static void showErrorMessage(Player player, String message) {
-        player.sendMessage(getWarnPrefix() + message);
-    }
-
-    public static void setNickname(Player player) {
-        player.sendMessage(getWarnPrefix() + "닉네임이 설정되었습니다.");
-    }
-
-    public static void resetNickname(Player player) {
-        player.sendMessage(getWarnPrefix() + "닉네임이 해제되었습니다.");
-    }
-
+    /* feedback */
     public static void showNameNandNickname(Player player, String name, String nickname) {
         player.sendMessage(getWarnPrefix() + "설정한 닉네임 : " + nickname + " (" + name + ")");
     }
 
-    /* 명령어 설명 */
+    /* command */
     public static void commandHelper(Player player) {
         player.sendMessage(getWarnPrefix() + "/닉네임 도움말" + ChatColor.GRAY + " : 사용 가능한 명령어를 확인할 수 있습니다.");
     }
 
     public static void commandList(Player player) {
+        player.sendMessage("");
         player.sendMessage(getWarnPrefix() + "닉네임 명령어 목록");
         player.sendMessage("　　　① /닉네임 설정 닉네임");
         player.sendMessage(ChatColor.GRAY + "　　　　　: 닉네임을 설정합니다.");
@@ -81,5 +85,6 @@ public class ChatUtil {
             player.sendMessage(ChatColor.GRAY + "　　　　　: 사용 가능한 명령어를 확인할 수 있습니다.");
         }
 
+        player.sendMessage("");
     }
 }
