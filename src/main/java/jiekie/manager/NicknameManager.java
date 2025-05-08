@@ -135,8 +135,8 @@ public class NicknameManager {
         team.getEntries().forEach(team::removeEntry);
         team.addEntry(player.getName());
 
-        team.setPrefix(nickname + " (");
-        team.setSuffix(")");
+        team.setPrefix("");
+        team.setSuffix("(" + nickname + ")");
         team.setDisplayName(nickname);
 
         player.setScoreboard(scoreboard);
