@@ -23,12 +23,11 @@ public class NicknameCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(!(sender instanceof Player)) {
+        if(!(sender instanceof Player player)) {
             ChatUtil.notPlayer(sender);
             return true;
         }
 
-        Player player = (Player) sender;
         if(args == null || args.length == 0) {
             ChatUtil.commandHelper(player);
             return true;
@@ -72,6 +71,7 @@ public class NicknameCommand implements CommandExecutor {
         String nickname = getContents(args, 1);
         try {
             plugin.getNicknameManager().applyNickname(player, nickname);
+            plugin.getNicknameManager().removeNicknameTicketFromPlayer(player);
             ChatUtil.showMessage(player, ChatUtil.SET_NICKNAME);
             SoundUtil.playNoteBlockBell(player);
 

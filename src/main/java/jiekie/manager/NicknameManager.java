@@ -6,9 +6,14 @@ import jiekie.exception.ResetNicknameException;
 import jiekie.model.PlayerNameData;
 import jiekie.util.ChatUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -19,10 +24,43 @@ public class NicknameManager {
     private final NicknamePlugin plugin;
     private final Map<UUID, PlayerNameData> playerNameDataMap = new HashMap<>();
     private final Map<String, UUID> nicknameMap = new HashMap<>();
+    private ItemStack nicknameTicket;
     private final String PLAYERS_PREFIX = "players";
 
     public NicknameManager(NicknamePlugin plugin) {
         this.plugin = plugin;
+    }
+
+    public ItemStack getNicknameTicket() {
+        if(nicknameTicket == null) {
+            nicknameTicket = new ItemStack(Material.PAPER);
+
+            ItemMeta meta = nicknameTicket.getItemMeta();
+            meta.setDisplayName(ChatColor.GOLD + "입주 신고서");
+            meta.setLore(List.of(
+                    ""
+                    , ChatColor.GRAY + "우클릭 시 입주 신고서를 작성할 수 있습니다."
+                    , ChatColor.GRAY + "편의를 위해 입주 신고서를 작성해주세요."
+            ));
+            meta.setCustomModelData(300);
+
+            nicknameTicket.setItemMeta(meta);
+        }
+
+        return nicknameTicket;
+    }
+
+    public void removeNicknameTicketFromPlayer(Player player) {
+        if(nicknameTicket == null) return;
+        PlayerInventory inventory = player.getInventory();
+        for(ItemStack item : inventory.getContents()) {
+            if(item == null || !item.isSimilar(getNicknameTicket())) continue;
+            int amount = item.getAmount();
+            if(amount > 0)
+                item.setAmount(amount - 1);
+            else
+                inventory.setItemInMainHand(null);
+        }
     }
 
     public void loadPlayerNameData() {

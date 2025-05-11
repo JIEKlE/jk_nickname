@@ -29,7 +29,7 @@ public class NicknameTabCompleter implements TabCompleter {
             if(player.isOp())
                 return Arrays.asList("설정", "해제", "확인", "변경", "도움말");
             else
-                return Arrays.asList("설정", "해제", "확인", "도움말");
+                return Arrays.asList("확인", "도움말");
         }
 
         if(args.length == 2 && args[0].equals("확인"))

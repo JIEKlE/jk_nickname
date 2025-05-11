@@ -1,14 +1,23 @@
 package jiekie.event;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import jiekie.NicknamePlugin;
 import jiekie.exception.ApplyNicknameException;
 import jiekie.util.ChatUtil;
 import jiekie.model.PlayerNameData;
+import jiekie.util.PacketNames;
+import jiekie.util.SoundUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.UUID;
 
@@ -20,7 +29,21 @@ public class PlayerEvent implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
+    public void onJoin(PlayerJoinEvent e) {
+        applyNickname(e);
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e) {
+        setQuitMessage(e);
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        useNicknameTicket(e);
+    }
+
+    private void applyNickname(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
         PlayerNameData playerNameData = plugin.getNicknameManager().getPlayerNameDataByUuid(uuid);
@@ -41,8 +64,7 @@ public class PlayerEvent implements Listener {
         }
     }
 
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent e) {
+    private void setQuitMessage(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
         PlayerNameData playerNameData = plugin.getNicknameManager().getPlayerNameDataByUuid(uuid);
@@ -54,5 +76,22 @@ public class PlayerEvent implements Listener {
 
         e.setQuitMessage(ChatUtil.getLeftArrowPrefix() + playerNameData.getNickname());
         playerNameData.setOnline(false);
+    }
+
+    private void useNicknameTicket(PlayerInteractEvent e) {
+        if(e.getHand() == null) return;
+        if(!e.getHand().equals(EquipmentSlot.HAND)) return;
+        if(e.getAction() != Action.RIGHT_CLICK_AIR  && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+
+        Player player = e.getPlayer();
+        PlayerInventory inventory = player.getInventory();
+        ItemStack item = inventory.getItemInMainHand();
+        ItemStack nicknameTicket = plugin.getNicknameManager().getNicknameTicket();
+        if(!item.isSimilar(nicknameTicket)) return;
+
+        ByteArrayDataOutput byteArrayDataOutput = ByteStreams.newDataOutput();
+        player.sendPluginMessage(plugin, PacketNames.SET_NICKNAME, byteArrayDataOutput.toByteArray());
+
+        SoundUtil.playNoteBlockBell(player);
     }
 }

@@ -9,3 +9,8 @@ commands:
     description: 닉네임 설정 명령어
     usage: /닉네임
     tab-completer: jiekie.completer.NicknameTabCompleter
+  입주신고서:
+    description: 입주 신고서 명령어
+    usage: /입주신고서
+    permission: jk.nickname_ticket.command
+    permission-message: ''

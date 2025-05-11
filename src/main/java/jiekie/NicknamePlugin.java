@@ -2,9 +2,12 @@ package jiekie;
 
 import jiekie.api.NicknameAPI;
 import jiekie.command.NicknameCommand;
+import jiekie.command.NicknameTicketCommand;
 import jiekie.completer.NicknameTabCompleter;
 import jiekie.event.PlayerEvent;
 import jiekie.manager.NicknameManager;
+import jiekie.util.PacketNames;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class NicknamePlugin extends JavaPlugin {
@@ -24,9 +27,13 @@ public final class NicknamePlugin extends JavaPlugin {
 
         // 명령어 등록
         getCommand("닉네임").setExecutor(new NicknameCommand(this));
+        getCommand("입주신고서").setExecutor(new NicknameTicketCommand(this));
 
         // 자동완성 등록
         getCommand("닉네임").setTabCompleter(new NicknameTabCompleter(this));
+
+        // 패킷 등록
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this, PacketNames.SET_NICKNAME);
 
         // API 등록
         NicknameAPI.initialize(nicknameManager);
