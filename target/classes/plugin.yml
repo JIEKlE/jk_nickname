@@ -1,6 +1,6 @@
 name: jk_nickname
 version: '1.0-SNAPSHOT'
-main: jiekie.NicknamePlugin
+main: jiekie.nickname.NicknamePlugin
 api-version: '1.20'
 authors: [Jiekie]
 description: 닉네임 설정 플러그인
@@ -8,7 +8,7 @@ commands:
   닉네임:
     description: 닉네임 설정 명령어
     usage: /닉네임
-    tab-completer: jiekie.completer.NicknameTabCompleter
+    tab-completer: jiekie.nickname.completer.NicknameTabCompleter
   입주신고서:
     description: 입주 신고서 명령어
     usage: /입주신고서

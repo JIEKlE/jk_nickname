@@ -1,13 +1,13 @@
-package jiekie.event;
+package jiekie.nickname.event;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import jiekie.NicknamePlugin;
-import jiekie.exception.ApplyNicknameException;
-import jiekie.util.ChatUtil;
-import jiekie.model.PlayerNameData;
-import jiekie.util.PacketNames;
-import jiekie.util.SoundUtil;
+import jiekie.nickname.NicknamePlugin;
+import jiekie.nickname.exception.ApplyNicknameException;
+import jiekie.nickname.util.ChatUtil;
+import jiekie.nickname.model.PlayerNameData;
+import jiekie.nickname.util.PacketNames;
+import jiekie.nickname.util.SoundUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

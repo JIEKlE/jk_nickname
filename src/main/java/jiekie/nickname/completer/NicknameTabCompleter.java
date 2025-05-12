@@ -1,6 +1,6 @@
-package jiekie.completer;
+package jiekie.nickname.completer;
 
-import jiekie.NicknamePlugin;
+import jiekie.nickname.NicknamePlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

@@ -1,7 +1,7 @@
-package jiekie.api;
+package jiekie.nickname.api;
 
-import jiekie.manager.NicknameManager;
-import jiekie.model.PlayerNameData;
+import jiekie.nickname.manager.NicknameManager;
+import jiekie.nickname.model.PlayerNameData;
 import org.bukkit.entity.Player;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package jiekie.util;
+package jiekie.nickname.util;
 
 public class PacketNames {
     public static String MOD_ID = "jk_nickname_mod";

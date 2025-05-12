@@ -1,8 +1,8 @@
-package jiekie.command;
+package jiekie.nickname.command;
 
-import jiekie.NicknamePlugin;
-import jiekie.util.ChatUtil;
-import jiekie.util.SoundUtil;
+import jiekie.nickname.NicknamePlugin;
+import jiekie.nickname.util.ChatUtil;
+import jiekie.nickname.util.SoundUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

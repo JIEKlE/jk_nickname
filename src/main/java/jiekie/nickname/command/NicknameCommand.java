@@ -1,11 +1,11 @@
-package jiekie.command;
+package jiekie.nickname.command;
 
-import jiekie.NicknamePlugin;
-import jiekie.exception.ApplyNicknameException;
-import jiekie.exception.ResetNicknameException;
-import jiekie.util.ChatUtil;
-import jiekie.model.PlayerNameData;
-import jiekie.util.SoundUtil;
+import jiekie.nickname.NicknamePlugin;
+import jiekie.nickname.exception.ApplyNicknameException;
+import jiekie.nickname.exception.ResetNicknameException;
+import jiekie.nickname.util.ChatUtil;
+import jiekie.nickname.model.PlayerNameData;
+import jiekie.nickname.util.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

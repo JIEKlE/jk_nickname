@@ -1,4 +1,4 @@
-package jiekie.model;
+package jiekie.nickname.model;
 
 import java.util.UUID;
 

@@ -1,12 +1,12 @@
-package jiekie;
+package jiekie.nickname;
 
-import jiekie.api.NicknameAPI;
-import jiekie.command.NicknameCommand;
-import jiekie.command.NicknameTicketCommand;
-import jiekie.completer.NicknameTabCompleter;
-import jiekie.event.PlayerEvent;
-import jiekie.manager.NicknameManager;
-import jiekie.util.PacketNames;
+import jiekie.nickname.api.NicknameAPI;
+import jiekie.nickname.command.NicknameCommand;
+import jiekie.nickname.command.NicknameTicketCommand;
+import jiekie.nickname.completer.NicknameTabCompleter;
+import jiekie.nickname.event.PlayerEvent;
+import jiekie.nickname.manager.NicknameManager;
+import jiekie.nickname.util.PacketNames;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

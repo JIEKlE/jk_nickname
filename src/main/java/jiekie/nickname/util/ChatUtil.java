@@ -1,4 +1,4 @@
-package jiekie.util;
+package jiekie.nickname.util;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

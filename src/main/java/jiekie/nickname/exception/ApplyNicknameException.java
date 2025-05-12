@@ -1,4 +1,4 @@
-package jiekie.exception;
+package jiekie.nickname.exception;
 
 public class ApplyNicknameException extends Exception {
     public ApplyNicknameException(String message) {
